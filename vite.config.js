@@ -8,6 +8,7 @@ export default defineConfig({
         login: "login.html",
         register: "register.html",
         dashboard: "dashboard.html",
+        dashboardhome: "dashboard-home.html",
         admin: "admin.html",
         team: "team.html"
       }
