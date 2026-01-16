@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Registration</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    /* --- RESET & BACKGROUND --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      padding: 20px;
+    }
+
+    /* --- DECORATIVE ORBS --- */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      opacity: 0.6;
+    }
+    .orb-1 { width: 300px; height: 300px; background: #ff4b1f; top: 10%; left: 10%; }
+    .orb-2 { width: 250px; height: 250px; background: #1fddff; bottom: 10%; right: 10%; }
+
+    /* --- GLASS CONTAINER --- */
+    .register-container {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      text-align: center;
+    }
+
+    /* --- TYPOGRAPHY --- */
+    h2 {
+      margin-bottom: 25px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* --- INPUT FIELDS --- */
+    /* This generic rule ensures dynamic inputs in #members also look good */
+    input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* --- DYNAMIC MEMBERS SECTION --- */
+    #members {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* --- BUTTON --- */
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(90deg, #ff4b1f, #ff9068); /* Sunset gradient */
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 75, 31, 0.4);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 75, 31, 0.6);
+    }
+
+    button:active {
+      transform: translateY(-1px);
+    }
+
+    .icon-input-wrapper {
+        position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="register-container">
+    <div class="glass-card">
+      <h2><i class="fas fa-user-plus"></i> Team Registration</h2>
+
+      <input id="teamName" placeholder="Team Name" autocomplete="off" />
+      <input id="password" type="password" placeholder="Create Password" />
+
+      <div style="height: 1px; background: rgba(255,255,255,0.2); margin: 20px 0;"></div>
+      
+      <p style="text-align: left; font-size: 0.9rem; color: #ccc; margin-bottom: 10px;">Team Members</p>
+      
+      <div id="members"></div>
+
+      <button onclick="registerTeam()">
+        Register Team <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="./js/register.js"></script>
+</body>
+</html>

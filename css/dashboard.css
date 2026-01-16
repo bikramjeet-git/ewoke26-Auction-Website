@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --text-color: #ffffff;
+  --accent-blue: #00d2ff;
+  --accent-purple: #3a7bd5;
+  --accent-gold: #ffd700;
+  --danger: #ff4b4b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  min-height: 100vh;
+  /* Matching Admin Gradient */
+  background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Main Wrapper */
+.dashboard-container {
+  width: 100%;
+  max-width: 600px; /* Limits width on desktop for better readability */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  margin: 0 0 15px 0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+/* --- Glass Card Style (Reusable) --- */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 20px;
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- Balance Card --- */
+.balance-card {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+}
+
+.balance-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #5affba; /* Neon Green */
+  text-shadow: 0 0 15px rgba(90, 255, 186, 0.4);
+}
+
+/* --- Auction Card --- */
+.auction-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(0, 210, 255, 0.3); /* Slight blue border hint */
+}
+
+.status-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ff4b4b;
+  color: white;
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.item-name {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 10px 0 20px 0;
+  line-height: 1.2;
+}
+
+.bid-info {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  background: rgba(0,0,0,0.2);
+  padding: 10px 20px;
+  border-radius: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.highlight-val {
+  color: var(--accent-gold);
+  font-weight: bold;
+}
+
+/* Inputs & Buttons in Auction Card */
+.bid-actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
+  padding: 15px;
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  text-align: center;
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+input:focus {
+  border-color: var(--accent-blue);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  color: white;
+  font-weight: 600;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Primary Action Button */
+.action-btn {
+  flex: 1;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+}
+
+/* Logout Button */
+.logout-btn {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.logout-btn:hover {
+  background: rgba(255, 40, 40, 0.4);
+  border-color: rgba(255, 40, 40, 0.6);
+}
+
+/* --- Purchases Section --- */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+/* Style for items injected by JS */
+.inventory-item {
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.empty-msg {
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* --- Mobile Specific Adjustments --- */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .bid-actions {
+    flex-direction: column; /* Stack input and button on small screens */
+  }
+  
+  input, .action-btn {
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+  
+  .balance-amount {
+    font-size: 2rem;
+  }
+}

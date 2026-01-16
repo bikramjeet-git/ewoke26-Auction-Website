@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    /* --- SHARED STYLES --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      padding: 20px;
+    }
+
+    /* --- BACKGROUND ORBS --- */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      opacity: 0.6;
+    }
+    .orb-1 { width: 350px; height: 350px; background: #ff0099; top: 10%; left: 10%; }
+    .orb-2 { width: 300px; height: 300px; background: #493240; bottom: 10%; right: 10%; }
+
+    /* --- CONTAINER --- */
+    .landing-container {
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 50px 30px;
+      text-align: center;
+      
+      /* Animation for smooth entry */
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- TYPOGRAPHY --- */
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    p {
+      color: #ccc;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+    }
+
+    /* --- BUTTONS --- */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-register {
+      background: linear-gradient(90deg, #ff00cc, #333399);
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 0, 204, 0.3);
+    }
+    .btn-register:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 0, 204, 0.5);
+    }
+
+    .btn-login {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-login:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .icon-large {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        background: -webkit-linear-gradient(#ff00cc, #333399);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div id="auth-buttons" class="landing-container" style="display: none;">
+    <div class="glass-card">
+        
+        <i class="fas fa-rocket icon-large"></i>
+        
+        <h1>Auction Portal</h1>
+        <p>Join the bidding war or manage your team.</p>
+
+        <div class="btn-group">
+            <button onclick="goRegister()" class="btn-register">
+                Register New Team
+            </button>
+            <button onclick="goLogin()" class="btn-login">
+                Existing Login
+            </button>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    // --- AUTH LOGIC (Unchanged functionality) ---
+    
+    // Check Local Storage
+    const authData = JSON.parse(localStorage.getItem("auth"));
+
+    if (!authData || !authData.isAuth) {
+      // UNAUTHORIZED: Show the Landing Card
+      document.getElementById("auth-buttons").style.display = "block";
+    } else {
+      // AUTHORIZED: Redirect immediately
+      if (authData.role === "admin") {
+        window.location.href = "admin.html"; // Changed path to relative for safety
+      } else {
+        window.location.href = "dashboard.html"; // Changed to match your previous filenames
+      }
+    }
+
+    // --- NAVIGATION FUNCTIONS ---
+    function goRegister() {
+      window.location.href = "register.html";
+    }
+
+    function goLogin() {
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+import { auth } from "./firebase.js";
+import { signInWithEmailAndPassword } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+window.login = async () => {
+  const teamName = document.getElementById("teamName").value.trim();
+  const password = document.getElementById("password").value;
+
+  const email = teamName + "@ewoke.in";
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+
+    let role = "user";
+    if (teamName.toLowerCase() === "admin") {
+      role = "admin";
+    }
+
+    localStorage.setItem(
+      "auth",
+      JSON.stringify({
+        isAuth: true,
+        role: role,
+        teamName: teamName
+      })
+    );
+
+    localStorage.setItem(
+        "teamName",
+        teamName.toLowerCase()
+    )
+
+    if (role === "admin") {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "dashboard-home.html";
+    }
+
+  } catch (err) {
+    alert("Login failed");
+    console.error(err);
+  }
+};
