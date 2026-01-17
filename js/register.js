@@ -11,8 +11,6 @@ import {
 
 const membersDiv = document.getElementById("members");
 
-
-
 /* =========================================
    1. GENERATE INPUT FIELDS
 ========================================= */
@@ -42,10 +40,13 @@ for (let i = 1; i <= 6; i++) {
 ========================================= */
 window.registerTeam = async () => {
 
+  /* 🔒 NORMALIZE TEAM NAME ONCE */
+  const rawTeamName = document.getElementById("teamName").value;
 
-  const teamName = document.getElementById("teamName").value
-  .replace(/[^\w]/g, "")   // keep only a-z A-Z 0-9 _
-  .toLowerCase(); ;
+  const teamName = rawTeamName
+    .trim()
+    .replace(/\s+/g, "")   // remove all spaces
+    .toLowerCase();        // force lowercase
 
   const password = document.getElementById("password").value;
   const balance = 10000;
@@ -55,7 +56,9 @@ window.registerTeam = async () => {
     return;
   }
 
+  /* 🔒 EMAIL USES SAME CLEAN TEAM NAME */
   const email = `${teamName}@ewoke.in`;
+
   const members = [];
 
   for (let i = 1; i <= 6; i++) {
@@ -96,13 +99,16 @@ window.registerTeam = async () => {
     return;
   }
 
+  /* =========================================
+     FIREBASE AUTH + DB
+  ========================================= */
   try {
     await createUserWithEmailAndPassword(auth, email, password);
 
     await set(ref(db, `teams/${teamName}`), {
-      teamName,
-      balance,
-      members,
+      teamName: teamName,  
+      balance: balance,
+      members: members,
       createdAt: Date.now()
     });
 
