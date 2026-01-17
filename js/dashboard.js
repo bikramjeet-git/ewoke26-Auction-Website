@@ -1,5 +1,5 @@
-import { db, auth } from "./firebase.js"; // Added auth import for logout
-import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; // Added signOut import
+import { db, auth } from "./firebase.js"; 
+import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; 
 import {
   ref,
   onValue,
@@ -13,20 +13,23 @@ const teamName = localStorage.getItem("teamName");
 const auctionRef = ref(db, "auction/currentItem");
 const teamRef = ref(db, `teams/${teamName}`);
 
+// Safety check for element existence before setting text
+const headerText = document.getElementById("header-text");
+if (headerText) {
+    headerText.innerText = "Team " + (teamName?.toLocaleUpperCase() || "-");
+}
 
-document.getElementById("header-text").innerText = "Team " + (teamName?.toLocaleUpperCase() || "-");
 let currentAuction = null;
 let teamBalance = 2000;
 
 /* ============================
-   AUCTION LISTENER (UPDATED)
+   AUCTION LISTENER
 ============================ */
 onValue(auctionRef, (snap) => {
   const activeUI = document.getElementById("activeAuctionUI");
   const waitingUI = document.getElementById("waitingUI");
 
   if (!snap.exists()) {
-    // No data at all -> Show waiting
     if(activeUI) activeUI.style.display = "none";
     if(waitingUI) waitingUI.style.display = "block";
     return;
@@ -56,10 +59,7 @@ onValue(auctionRef, (snap) => {
    TEAM DATA LISTENER
 ============================ */
 onValue(teamRef, (snap) => {
-  if (!snap.exists()) {
-    // Handle case where team doesn't exist (optional)
-    return;
-  }
+  if (!snap.exists()) return;
 
   const data = snap.val();
 
@@ -96,14 +96,11 @@ onValue(teamRef, (snap) => {
 ============================ */
 window.logout = async () => {
   try {
-    // If you are using Firebase Auth:
     if(auth) await signOut(auth);
-    
     localStorage.clear();
     window.location.href = "login.html";
   } catch (err) {
     console.error(err);
-    // Fallback if auth isn't initialized but we want to redirect
     localStorage.clear();
     window.location.href = "login.html";
   }
@@ -129,16 +126,25 @@ window.placeBid = async () => {
   const inputField = document.getElementById("bidAmount");
   const bid = Number(inputField.value);
 
+  // 1. Check if bid is valid and higher than current
   if (!bid || bid <= currentAuction.highestBid) {
     alert(`Bid must be higher than $${currentAuction.highestBid}`);
     return;
   }
 
+  // 2. 🔥 NEW CHECK: Minimum Increment of 50 🔥
+  if ((bid - currentAuction.highestBid) < 50) {
+    alert(`Minimum bid increment is $50. Your bid must be at least $${currentAuction.highestBid + 50}`);
+    return;
+  }
+
+  // 3. Check Balance
   if (bid > teamBalance) {
     alert(`Insufficient balance! You only have $${teamBalance}`);
     return;
   }
 
+  // 4. Check if you are already winning
   if (currentAuction.highestBidder === teamName) {
     alert("You already hold the highest bid!");
     return;

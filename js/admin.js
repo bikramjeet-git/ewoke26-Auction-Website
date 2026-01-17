@@ -197,7 +197,7 @@ window.filterTable = () => {
 ============================ */
 window.finishEvent = async () => {
     // 1. Ensure current auction is killed
-    await update(ref(db, "auction/currentItem"), { status: "ENDED" });
+    // await update(ref(db, "auction/currentItem"), { status: "ENDED" });
     
     // 2. Redirect to Results
     window.location.href = "results.html";

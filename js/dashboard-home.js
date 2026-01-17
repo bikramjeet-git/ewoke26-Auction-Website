@@ -2,19 +2,19 @@ import { auth } from "./firebase.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 /* ============================
-   🔒 AUTH GUARD (UNAUTHORIZED CHECK)
+    AUTH GUARD (UNAUTHORIZED CHECK)
    ============================ */
 // Check if authentication data exists in LocalStorage
 const authData = JSON.parse(localStorage.getItem("auth"));
 const teamName = localStorage.getItem("teamName");
 
 // If missing auth flag or team name, redirect immediately
-if (!authData || !authData.isAuth || !teamName) {
+if (!teamName) {
   // Optional: You can comment out the alert if you want a silent redirect
   alert("Access Denied. Please login first.");
   window.location.href = "login.html";
 //   alert("Unauthorized")
-  window.location.href = "login.html";
+
 
   
   // Stop further execution
