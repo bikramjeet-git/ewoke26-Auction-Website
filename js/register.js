@@ -11,15 +11,7 @@ import {
 
 const membersDiv = document.getElementById("members");
 
-/* =========================================
-   UTILITY: TEAM NAME NORMALIZATION
-========================================= */
-function normalizeTeamName(input) {
-  return input
-  .value 
-  .replace(/[^\w]/g, "") 
-  .toLowerCase(); 
-}
+
 
 /* =========================================
    1. GENERATE INPUT FIELDS
@@ -50,8 +42,10 @@ for (let i = 1; i <= 6; i++) {
 ========================================= */
 window.registerTeam = async () => {
 
-  const rawTeamName = document.getElementById("teamName").value;
-  const teamName = normalizeTeamName(rawTeamName);
+
+  const teamName = document.getElementById("teamName").value
+  .replace(/[^\w]/g, "")   // keep only a-z A-Z 0-9 _
+  .toLowerCase(); ;
 
   const password = document.getElementById("password").value;
   const balance = 10000;
