@@ -1,5 +1,3 @@
-// admin.js
-
 import { auth, db } from "./firebase.js";
 import {
   onAuthStateChanged,
@@ -71,22 +69,21 @@ onValue(ref(db, "auction/currentItem"), snap => {
   highestBid.innerText = d.highestBid;
   highestBidder.innerText = d.highestBidder || "None";
 
-  // --- ADDED TEXT UPDATE LOGIC START ---
+  // --- ADDED TEXT UPDATE LOGIC ---
   const statusBadge = document.getElementById("auctionStatus");
   if (statusBadge) {
     if (d.status === "LIVE") {
       statusBadge.innerText = "LIVE";
-      statusBadge.className = "status-badge status-live"; // Green + Blink
+      statusBadge.className = "status-badge status-live";
     } else {
       statusBadge.innerText = "ENDED";
-      statusBadge.className = "status-badge status-ended"; // Red + Static
+      statusBadge.className = "status-badge status-ended";
     }
   }
-  // --- ADDED TEXT UPDATE LOGIC END ---
 });
 
 /* ============================
-   END AUCTION
+   END AUCTION (Individual)
 ============================ */
 window.endAuction = async () => {
   const auctionSnap = await get(ref(db, "auction/currentItem"));
@@ -94,15 +91,27 @@ window.endAuction = async () => {
 
   const a = auctionSnap.val();
 
+  // If status is already ended, don't re-process
+  if (a.status !== "LIVE") {
+      alert("Auction is not live!");
+      return;
+  }
+
   if (!a.highestBidder || a.highestBidder === "admin") {
-    alert("Invalid winner");
+    alert("Invalid winner or No bids");
+    await update(ref(db, "auction/currentItem"), { status: "ENDED" });
     return;
   }
 
   const teamRef = ref(db, `teams/${a.highestBidder}`);
   const teamSnap = await get(teamRef);
+  
+  if (!teamSnap.exists()) {
+      alert("Winning team not found in DB");
+      return;
+  }
+  
   const team = teamSnap.val();
-
   const newBalance = team.balance - a.highestBid;
 
   await update(teamRef, { balance: newBalance });
@@ -111,11 +120,12 @@ window.endAuction = async () => {
     ref(db, `teams/${a.highestBidder}/itemsBought/${a.itemId}`),
     {
       name: a.name,
-      price: a.highestBid
+      price: a.highestBid,
+      actualValue: a.actualValue // Ensure actual value is stored for final calculation
     }
   );
 
-  // 🔥 STORE RESULT
+  // STORE RESULT
   await push(ref(db, "auctionHistory"), {
     teamName: a.highestBidder,
     companyName: a.name,
@@ -127,7 +137,7 @@ window.endAuction = async () => {
 
   await update(ref(db, "auction/currentItem"), { status: "ENDED" });
 
-  alert("Auction ended");
+  alert("Auction ended successfully");
 };
 
 /* ============================
@@ -136,6 +146,7 @@ window.endAuction = async () => {
 const tbody = document.querySelector("#resultTable tbody");
 
 onValue(ref(db, "auctionHistory"), snap => {
+  if (!tbody) return;
   tbody.innerHTML = "";
   snap.forEach(s => {
     const d = s.val();
@@ -152,9 +163,10 @@ onValue(ref(db, "auctionHistory"), snap => {
 });
 
 /* ============================
-   SORT TABLE
+   SORT & FILTER
 ============================ */
 window.sortTable = col => {
+  if (!tbody) return;
   const rows = Array.from(tbody.rows);
   const asc = tbody.getAttribute("data-sort") !== "asc";
   tbody.setAttribute("data-sort", asc ? "asc" : "desc");
@@ -169,15 +181,24 @@ window.sortTable = col => {
   rows.forEach(r => tbody.appendChild(r));
 };
 
-/* ============================
-   FILTER TABLE
-============================ */
 window.filterTable = () => {
-  const val = filterTeam.value.toLowerCase();
+  const val = document.getElementById("filterTeam").value.toLowerCase();
+  if (!tbody) return;
   Array.from(tbody.rows).forEach(row => {
     row.style.display =
       row.cells[0].innerText.toLowerCase().includes(val)
         ? ""
         : "none";
   });
+};
+
+/* ============================
+   NEW: FINISH EVENT
+============================ */
+window.finishEvent = async () => {
+    // 1. Ensure current auction is killed
+    await update(ref(db, "auction/currentItem"), { status: "ENDED" });
+    
+    // 2. Redirect to Results
+    window.location.href = "results.html";
 };

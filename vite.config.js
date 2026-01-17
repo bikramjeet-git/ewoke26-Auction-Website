@@ -10,7 +10,8 @@ export default defineConfig({
         dashboard: "dashboard.html",
         dashboardhome: "dashboard-home.html",
         admin: "admin.html",
-        team: "team.html"
+        team: "team.html",
+        results: "results.html"
       }
     }
   }

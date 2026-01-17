@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Event Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    /* Same Glassmorphism Theme */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.6; }
+    .orb-1 { width: 300px; height: 300px; background: #ff9966; top: -10%; right: -10%; }
+    .orb-2 { width: 300px; height: 300px; background: #ff5e62; bottom: 10%; left: 5%; }
+    
+    .container { width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 25px; }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+
+    h2 { font-weight: 600; text-align: center; margin-bottom: 20px; font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; }
+    
+    input {
+      width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white; outline: none; transition: 0.3s;
+    }
+    input:focus { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.5); }
+
+    /* TABLE */
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 10px; }
+    th { text-align: left; padding: 15px; color: #ccc; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    th:hover { color: white; }
+    tbody tr { background: rgba(255, 255, 255, 0.05); transition: 0.3s; }
+    tbody tr:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.01); }
+    td { padding: 15px; border: none; color: white; font-size: 0.95rem; vertical-align: top; }
+    td:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; font-weight: 600; color: #ffd700; }
+    td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+    
+    .btn-back {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: rgba(255,255,255,0.1);
+        color: white;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="container">
+    <div class="glass-card">
+        <h2><i class="fas fa-trophy"></i> Final Leaderboard</h2>
+        
+        <input id="filterInput" placeholder="Filter by Team Name..." oninput="filterResults()">
+        
+        <div class="table-responsive">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortResults(0)">Team Name <i class="fas fa-sort"></i></th>
+                        <th onclick="sortResults(1)">Purchased Companies (Price)</th>
+                        <th onclick="sortResults(2)">Leftover Budget <i class="fas fa-sort"></i></th>
+                        <th onclick="sortResults(3)">Sum of True Values <i class="fas fa-sort"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="admin.html" class="btn-back">Back to Admin</a>
+        </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/results.js"></script>
+</body>
+</html>
