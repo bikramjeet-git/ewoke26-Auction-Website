@@ -20,7 +20,7 @@ if (headerText) {
 }
 
 let currentAuction = null;
-let teamBalance = 2000;
+let teamBalance = 10000;
 
 /* ============================
    AUCTION LISTENER
@@ -45,7 +45,7 @@ onValue(auctionRef, (snap) => {
 
     // Update Text
     document.getElementById("itemName").innerText = currentAuction.name || "Unknown Item";
-    document.getElementById("highestBid").innerText = currentAuction.highestBid || 0;
+    document.getElementById("highestBid").innerText = currentAuction.highestBid + " Cr" || 0;
     document.getElementById("highestBidder").innerText = currentAuction.highestBidder || "—";
     
   } else {
@@ -71,7 +71,7 @@ onValue(teamRef, (snap) => {
   }
 
   const balanceEl = document.getElementById("balance");
-  if(balanceEl) balanceEl.innerText = teamBalance;
+  if(balanceEl) balanceEl.innerText = teamBalance + " Cr" ;
 
   // Purchases
   const purchasesDiv = document.getElementById("purchases");
@@ -148,19 +148,19 @@ window.placeBid = async () => {
 
   // 1. Check if bid is valid and higher than current
   if (!bid || bid <= currentAuction.highestBid) {
-    alert(`Bid must be higher than $${currentAuction.highestBid}`);
+    alert(`Bid must be higher than ₹${currentAuction.highestBid} Cr`);
     return;
   }
 
   // 2. Minimum Increment of 50
   if ((bid - currentAuction.highestBid) < 50) {
-    alert(`Minimum bid increment is $50. Your bid must be at least $${currentAuction.highestBid + 50}`);
+    alert(`Minimum bid increment is ₹50 Cr. Your bid must be at least ₹${currentAuction.highestBid + 50}`);
     return;
   }
 
   // 3. Check Balance
   if (bid > teamBalance) {
-    alert(`Insufficient balance! You only have $${teamBalance}`);
+    alert(`Insufficient balance! You only have ₹${teamBalance}`);
     return;
   }
 

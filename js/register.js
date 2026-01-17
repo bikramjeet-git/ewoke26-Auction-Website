@@ -12,6 +12,16 @@ import {
 const membersDiv = document.getElementById("members");
 
 /* =========================================
+   UTILITY: TEAM NAME NORMALIZATION
+========================================= */
+function normalizeTeamName(input) {
+  return input
+    .normalize("NFKD")          // remove unicode chars
+    .replace(/[^\w]/g, "")      // only letters & numbers
+    .toLowerCase();
+}
+
+/* =========================================
    1. GENERATE INPUT FIELDS
 ========================================= */
 membersDiv.innerHTML = "";
@@ -40,25 +50,18 @@ for (let i = 1; i <= 6; i++) {
 ========================================= */
 window.registerTeam = async () => {
 
-  /* 🔒 NORMALIZE TEAM NAME ONCE */
   const rawTeamName = document.getElementById("teamName").value;
-
-  const teamName = rawTeamName
-    .trim()
-    .replace(/\s+/g, "")   // remove all spaces
-    .toLowerCase();        // force lowercase
+  const teamName = normalizeTeamName(rawTeamName);
 
   const password = document.getElementById("password").value;
-  const balance = 2000;
+  const balance = 10000;
 
   if (!teamName || !password) {
     alert("Please enter Team Name and Password");
     return;
   }
 
-  /* 🔒 EMAIL USES SAME CLEAN TEAM NAME */
   const email = `${teamName}@ewoke.in`;
-
   const members = [];
 
   for (let i = 1; i <= 6; i++) {
@@ -99,16 +102,13 @@ window.registerTeam = async () => {
     return;
   }
 
-  /* =========================================
-     FIREBASE AUTH + DB
-  ========================================= */
   try {
     await createUserWithEmailAndPassword(auth, email, password);
 
     await set(ref(db, `teams/${teamName}`), {
-      teamName: teamName,   // 🔒 lowercase stored
-      balance: balance,
-      members: members,
+      teamName,
+      balance,
+      members,
       createdAt: Date.now()
     });
 
