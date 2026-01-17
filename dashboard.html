@@ -27,14 +27,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        /* Deep gradient background to make glass effect pop */
         background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         color: white;
         padding: 20px;
         overflow-x: hidden;
       }
 
-      /* --- BACKGROUND ORBS (For Depth) --- */
+      /* --- BACKGROUND ORBS --- */
       .orb {
         position: absolute;
         border-radius: 50%;
@@ -42,20 +41,8 @@
         z-index: -1;
         opacity: 0.6;
       }
-      .orb-1 {
-        width: 300px;
-        height: 300px;
-        background: #ff00cc;
-        top: 10%;
-        left: 10%;
-      }
-      .orb-2 {
-        width: 250px;
-        height: 250px;
-        background: #3333ff;
-        bottom: 20%;
-        right: 10%;
-      }
+      .orb-1 { width: 300px; height: 300px; background: #ff00cc; top: 10%; left: 10%; }
+      .orb-2 { width: 250px; height: 250px; background: #3333ff; bottom: 20%; right: 10%; }
 
       /* --- GLASSMORPHISM CONTAINER --- */
       .dashboard-container {
@@ -68,7 +55,7 @@
 
       @media (min-width: 768px) {
         .dashboard-container {
-          grid-template-columns: 1.5fr 1fr; /* Split layout on desktop */
+          grid-template-columns: 1.5fr 1fr;
         }
       }
 
@@ -86,23 +73,9 @@
       }
 
       /* --- TYPOGRAPHY --- */
-      h2 {
-        font-weight: 600;
-        margin-bottom: 5px;
-        letter-spacing: 1px;
-      }
-      h3 {
-        font-weight: 400;
-        color: #e0e0e0;
-        margin-bottom: 15px;
-        font-size: 1.1rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-      }
-      p {
-        margin-bottom: 10px;
-        color: #ccc;
-      }
+      h2 { font-weight: 600; margin-bottom: 5px; letter-spacing: 1px; }
+      h3 { font-weight: 400; color: #e0e0e0; margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
+      p { margin-bottom: 10px; color: #ccc; }
 
       .balance-tag {
         background: rgba(46, 204, 113, 0.2);
@@ -123,7 +96,7 @@
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
       }
 
-      /* --- FORMS & INPUTS --- */
+      /* --- INPUTS --- */
       input {
         width: 100%;
         padding: 15px;
@@ -135,10 +108,6 @@
         margin-bottom: 15px;
         transition: 0.3s ease;
         outline: none;
-      }
-
-      input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
       }
       input:focus {
         background: rgba(255, 255, 255, 0.1);
@@ -164,19 +133,14 @@
         color: white;
         box-shadow: 0 4px 15px rgba(255, 0, 204, 0.4);
       }
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 0, 204, 0.6);
-      }
+      .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 0, 204, 0.6); }
 
       .btn-secondary {
         background: rgba(255, 255, 255, 0.1);
         color: white;
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
-      .btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.2);
-      }
+      .btn-secondary:hover { background: rgba(255, 255, 255, 0.2); }
 
       .btn-danger {
         background: transparent;
@@ -184,9 +148,7 @@
         border: 1px solid rgba(255, 107, 107, 0.3);
         margin-top: 20px;
       }
-      .btn-danger:hover {
-        background: rgba(255, 107, 107, 0.1);
-      }
+      .btn-danger:hover { background: rgba(255, 107, 107, 0.1); }
 
       /* --- PURCHASES AREA --- */
       #purchases {
@@ -199,26 +161,44 @@
         max-height: 300px;
         overflow-y: auto;
       }
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+      ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
 
-      /* Scrollbar styling */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
-      }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 10px;
-      }
-
-      /* --- HEADER AREA --- */
       .header-section {
         grid-column: 1 / -1;
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
+      }
+
+      /* --- NEW STYLES FOR BID CONTROLS --- */
+      .bid-control-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      
+      .bid-control-group input {
+        margin-bottom: 0; /* Remove bottom margin to align with buttons */
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .btn-adjust {
+        width: 70px; /* Fixed width for the + and - buttons */
+        padding: 15px 0;
+        margin-bottom: 0;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        border-radius: 12px;
+        font-size: 1rem;
+      }
+      .btn-adjust:hover {
+        background: rgba(255, 255, 255, 0.2);
       }
     </style>
   </head>
@@ -234,7 +214,7 @@
         <div>
           <h2 id="header-text">Team Dashboard</h2>
           <p style="margin: 0; font-size: 0.9rem; opacity: 0.7">
-            asefwef
+            Welcome Back
           </p>
         </div>
         <div style="text-align: right">
@@ -278,7 +258,12 @@
               </div>
             </div>
 
-            <input type="number" id="bidAmount" placeholder="Enter amount..." />
+            <div class="bid-control-group">
+                <button onclick="adjustBid(-50)" class="btn-adjust"><i class="fas fa-minus"></i></button>
+                <input type="number" id="bidAmount" placeholder="Amount" />
+                <button onclick="adjustBid(50)" class="btn-adjust"><i class="fas fa-plus"></i></button>
+            </div>
+
             <button onclick="placeBid()" class="btn-primary">Place Bid</button>
         </div>
       </div>

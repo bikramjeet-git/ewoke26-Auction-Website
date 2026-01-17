@@ -107,6 +107,26 @@ window.logout = async () => {
 };
 
 /* ============================
+   ADJUST BID (+50 / -50)
+============================ */
+window.adjustBid = (amount) => {
+    const input = document.getElementById("bidAmount");
+    let currentVal = Number(input.value);
+
+    // If box is empty, start from current highest bid
+    if (!input.value && currentAuction) {
+        currentVal = currentAuction.highestBid;
+    }
+
+    let newVal = currentVal + amount;
+    
+    // Prevent negative numbers
+    if (newVal < 0) newVal = 0;
+    
+    input.value = newVal;
+};
+
+/* ============================
    PLACE BID
 ============================ */
 window.placeBid = async () => {
@@ -132,7 +152,7 @@ window.placeBid = async () => {
     return;
   }
 
-  // 2. 🔥 NEW CHECK: Minimum Increment of 50 🔥
+  // 2. Minimum Increment of 50
   if ((bid - currentAuction.highestBid) < 50) {
     alert(`Minimum bid increment is $50. Your bid must be at least $${currentAuction.highestBid + 50}`);
     return;
