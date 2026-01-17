@@ -16,8 +16,7 @@ const membersDiv = document.getElementById("members");
 ========================================= */
 function normalizeTeamName(input) {
   return input
-  .value
-  .normalize("NFKD")    
+  .value 
   .replace(/[^\w]/g, "") 
   .toLowerCase(); 
 }
