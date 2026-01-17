@@ -10,10 +10,11 @@ import {
    BASIC SETUP
 ============================ */
 const teamName = localStorage.getItem("teamName");
-const teamNameTrimmed = teamName.value
-.normalize("NFKD")    
-.replace(/[^\w]/g, "") 
-.toLowerCase(); 
+const teamNameTrimmed = teamName
+// .value
+// .normalize("NFKD")    
+// .replace(/[^\w]/g, "") 
+// .toLowerCase(); 
 const auctionRef = ref(db, "auction/currentItem");
 const teamRef = ref(db, `teams/${teamNameTrimmed}`);
 

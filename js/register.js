@@ -45,8 +45,8 @@ window.registerTeam = async () => {
 
   const teamName = rawTeamName
     .trim()
-    .replace(/\s+/g, "")   // remove all spaces
-    .toLowerCase();        // force lowercase
+    .replace(/\s+/g, "")  
+    .toLowerCase();    
 
   const password = document.getElementById("password").value;
   const balance = 10000;
