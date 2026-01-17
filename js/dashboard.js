@@ -87,7 +87,7 @@ onValue(teamRef, (snap) => {
           purchasesDiv.innerHTML += `
             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 0;">
                 <span>${item.name}</span>
-                <span style="color: #ffd700;">₹${item.price}</span>
+                <span style="color: #ffd700;">₹${item.price} Cr</span>
             </div>`;
         });
       } else {
