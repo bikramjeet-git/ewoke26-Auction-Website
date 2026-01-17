@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword } from
 window.login = async () => {
   const teamName = document.getElementById("teamName")
   .value
-  .replace(/[^\w]/g, "")   // keep only a-z A-Z 0-9 _
+  .replace(/[^\w]/g, "")  
   .toLowerCase(); 
 
   console.log(teamName)

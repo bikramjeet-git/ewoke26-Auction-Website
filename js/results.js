@@ -16,13 +16,13 @@ onValue(ref(db, "teams"), snap => {
   const teamsArray = Object.keys(teamsData).map(key => {
       const team = teamsData[key];
       
-      // 1. Format Companies List: "Google ($500), Meta ($300)"
+     
       let companiesList = [];
       let totalTrueValue = 0;
 
       if (team.itemsBought) {
           Object.values(team.itemsBought).forEach(item => {
-              companiesList.push(`${item.name} ($${item.price})`);
+              companiesList.push(`${item.name} (₹${item.price})`);
               
               // Sum True Value (ensure it's a number)
               totalTrueValue += Number(item.actualValue || 0);
@@ -47,8 +47,8 @@ onValue(ref(db, "teams"), snap => {
         <tr>
           <td>${t.name}</td>
           <td>${t.companies}</td>
-          <td style="color: #00e676; font-weight: bold;">$${t.balance}</td>
-          <td style="color: #ff9966; font-weight: bold;">$${t.totalTrueValue}</td>
+          <td style="color: #00e676; font-weight: bold;">₹${t.balance}</td>
+          <td style="color: #ff9966; font-weight: bold;">₹${t.totalTrueValue}</td>
         </tr>
       `;
   });

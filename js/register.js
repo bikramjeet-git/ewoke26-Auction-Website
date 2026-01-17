@@ -11,12 +11,10 @@ import {
 
 const membersDiv = document.getElementById("members");
 
-/* =========================================
-   1. GENERATE INPUT FIELDS
-========================================= */
+
 membersDiv.innerHTML = "";
 
-for (let i = 1; i <= 6; i++) {
+for (let i = 1; i <= 4; i++) {
   let html = `
     <div style="margin-top: 10px; text-align: left;">
       <h4 style="color: #e0e0e0; font-size: 0.9rem; margin-bottom: 5px;">
@@ -61,7 +59,7 @@ window.registerTeam = async () => {
 
   const members = [];
 
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 4; i++) {
     const name = document.getElementById(`name${i}`).value.trim();
 
     if (i === 1) {
@@ -89,8 +87,8 @@ window.registerTeam = async () => {
     }
   }
 
-  if (members.length < 4) {
-    alert(`Minimum 4 members required. You entered ${members.length}.`);
+  if (members.length < 3) {
+    alert(`Minimum 3 members required. You entered ${members.length}.`);
     return;
   }
 
