@@ -27,7 +27,7 @@ window.login = async () => {
 
     localStorage.setItem(
         "teamName",
-        teamName.toLowerCase()
+        teamName
     )
 
     if (role === "admin") {

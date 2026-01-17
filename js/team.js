@@ -18,7 +18,7 @@ async function loadTeamData() {
     // 2. Fetch the data from Firebase
     const snapshot = await get(ref(db, "teams/" + teamName));
 
-    // 3. HIDE LOADER (This makes the 'Loading...' text vanish)
+    // 3. HIDE LOADER
     if (loader) {
       loader.style.display = "none";
     }
@@ -33,7 +33,35 @@ async function loadTeamData() {
         teamDiv.innerHTML = ""; // Clear container
 
         data.members.forEach((m) => {
-          // I added inline styles here so these cards look beautiful immediately
+          
+          // --- LOGIC CHANGE HERE ---
+          // Determine if this is the Leader or a regular Member
+          // Leaders have an 'enroll' property, Members do not.
+          
+          let detailsHtml = "";
+          let iconHtml = '<i class="fas fa-user" style="margin-right:8px;"></i>'; // Default icon
+
+          if (m.enroll) {
+            // It is a LEADER
+            iconHtml = '<i class="fas fa-crown" style="margin-right:8px; color: #ffd700;"></i>'; // Crown icon
+            detailsHtml = `
+              <p style="margin: 5px 0 0; font-size: 0.85rem; color: #aaa;">
+                Enrollment: <span style="color: #4facfe;">${m.enroll}</span>
+              </p>
+              <p style="margin: 2px 0 0; font-size: 0.85rem; color: #aaa;">
+                GSuite: <span style="color: #4facfe;">${m.gsuite}</span>
+              </p>
+            `;
+          } else {
+            // It is a MEMBER
+            detailsHtml = `
+              <p style="margin: 5px 0 0; font-size: 0.85rem; color: #aaa;">
+                Team Member
+              </p>
+            `;
+          }
+
+          // Inject the HTML
           teamDiv.innerHTML += `
             <div style="
                 background: rgba(255, 255, 255, 0.05);
@@ -45,13 +73,11 @@ async function loadTeamData() {
             " onmouseover="this.style.background='rgba(255,255,255,0.1)'" 
                onmouseout="this.style.background='rgba(255,255,255,0.05)'">
               
-              <h3 style="margin: 0 0 5px 0; font-size: 1.1rem; color: #fff;">
-                <i class="fas fa-user-circle" style="margin-right:8px;"></i>${m.name}
+              <h3 style="margin: 0; font-size: 1.1rem; color: #fff;">
+                ${iconHtml}${m.name}
               </h3>
               
-              <p style="margin: 0; font-size: 0.9rem; color: #ccc;">
-                Enrollment ID: <span style="color: #adafb1;">${m.enroll}</span>
-              </p>
+              ${detailsHtml}
             </div>
           `;
         });
