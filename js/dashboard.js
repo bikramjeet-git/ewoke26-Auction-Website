@@ -10,13 +10,17 @@ import {
    BASIC SETUP
 ============================ */
 const teamName = localStorage.getItem("teamName");
+const teamNameTrimmed = teamName.value
+.normalize("NFKD")    
+.replace(/[^\w]/g, "") 
+.toLowerCase(); 
 const auctionRef = ref(db, "auction/currentItem");
-const teamRef = ref(db, `teams/${teamName}`);
+const teamRef = ref(db, `teams/${teamNameTrimmed}`);
 
 // Safety check for element existence before setting text
 const headerText = document.getElementById("header-text");
 if (headerText) {
-    headerText.innerText = "Team " + (teamName?.toLocaleUpperCase() || "-");
+    headerText.innerText = "Team " + (teamNameTrimmed?.toLocaleUpperCase() || "-");
 }
 
 let currentAuction = null;
@@ -65,7 +69,7 @@ onValue(teamRef, (snap) => {
 
   // Validation
   if (typeof data.balance !== "number") {
-    teamBalance = 2000;
+    teamBalance = 10000;
   } else {
     teamBalance = data.balance;
   }
@@ -82,7 +86,7 @@ onValue(teamRef, (snap) => {
           purchasesDiv.innerHTML += `
             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 0;">
                 <span>${item.name}</span>
-                <span style="color: #ffd700;">$${item.price}</span>
+                <span style="color: #ffd700;">₹${item.price}</span>
             </div>`;
         });
       } else {
@@ -165,7 +169,7 @@ window.placeBid = async () => {
   }
 
   // 4. Check if you are already winning
-  if (currentAuction.highestBidder === teamName) {
+  if (currentAuction.highestBidder === teamNameTrimmed) {
     alert("You already hold the highest bid!");
     return;
   }
@@ -173,7 +177,7 @@ window.placeBid = async () => {
   // Update DB
   await update(auctionRef, {
     highestBid: bid,
-    highestBidder: teamName,
+    highestBidder: teamNameTrimmed,
   });
   
   // Clear input for better UX

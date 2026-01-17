@@ -16,9 +16,10 @@ const membersDiv = document.getElementById("members");
 ========================================= */
 function normalizeTeamName(input) {
   return input
-    .normalize("NFKD")          // remove unicode chars
-    .replace(/[^\w]/g, "")      // only letters & numbers
-    .toLowerCase();
+  .value
+  .normalize("NFKD")    
+  .replace(/[^\w]/g, "") 
+  .toLowerCase(); 
 }
 
 /* =========================================
